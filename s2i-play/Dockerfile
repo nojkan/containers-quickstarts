@@ -14,9 +14,9 @@ ENV ACTIVATOR_VERSION=1.3.10 \
 
 COPY s2i /usr/libexec/s2i
 
-RUN yum repolist > dev/null && \ 
-    yum clean all && \
-    INSTALL_PKGS="tar unzip bc which lsof java-1.8.0-openjdk java-1.8.0-openjdk-devel" && \
+#RUN yum repolist > dev/null && \ 
+#    yum clean all && \
+RUN INSTALL_PKGS="tar unzip bc which lsof java-1.8.0-openjdk java-1.8.0-openjdk-devel" && \
     yum install -y  $INSTALL_PKGS 
 
 RUN    useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin \
