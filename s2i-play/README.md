@@ -44,7 +44,7 @@ None
 
 ### External Source Code Repositories
 
-* [Example Play Framework Application](https://github.com/playframework/play-ebean-example) -  Public repository for an example Play Framework application demonstrating how to communicate with an in memory database using [EBean](https://www.playframework.com/documentation/2.5.x/JavaEbean).
+* [Example Play Framework Application](https://github.com/playframework/play-java-ebean-example) -  Public repository for an example Play Framework application demonstrating how to communicate with an in memory database using [EBean](https://www.playframework.com/documentation/2.5.x/JavaEbean).
 
 ## Setup Instructions
 
@@ -77,7 +77,7 @@ The Play Framework builder image can be created using the [Git](https://docs.ope
 The content used to produce the Play builder image can originate from a Git repository. Execute the following command to start a new image build using the git source strategy.:
 
 ```
-oc new-build registry.access.redhat.com/rhel7.2~https://github.com/redhat-cop/containers-quickstarts --context-dir=s2i-play --name=s2i-play --strategy=docker --follow=true
+oc new-build registry.access.redhat.com/rhel7.2~https://github.com/redhat-cop/containers-quickstarts --context-dir=s2i-play --name=s2i-play --strategy=docker
 ```
 
 Let's break down the command in further detail
@@ -89,7 +89,6 @@ Let's break down the command in further detail
 * `--context-dir` - Location within the repository containing source code
 * `--name=s2i-play` - Name for the build and resulting image
 * `--strategy=docker` - Name of the OpenShift source strategy that is used to produce the new image
-* `--follow=true` - Follows the build process in the command window
 
 *Note: If the repository was moved to a different location (such as a fork), be sure to reference to correct location.*
 
@@ -102,18 +101,17 @@ Instead of referencing a git repository, the content can be provided directly to
 The first step is to obtain the source code containing the builder. Once the code has been obtained, navigate to the folder containing the Play Framework *Dockerfile*, and execute the following command to start a new image build using the binary source strategy:
 
 ```
-oc new-build registry.access.redhat.com/rhel7.2 --name=s2i-play --strategy=docker --from-dir=. --binary=true --follow=true
+oc new-build registry.access.redhat.com/rhel7.2 --name=s2i-play --strategy=docker --binary=true 
 ```
 
 Let's break down the command in further detail
 
 * `oc new-build` - OpenShift command to create a new build
 * `registry.access.redhat.com/rhel7.2` - The location of the base Docker image for which a new ImageStream will be created
-* `--from-dir` - Location of source code that will be used as the source for the build process. The contents will be tar'ed up and uploaded to the builder image.
 * `--name=s2i-play` - Name for the build and resulting image
 * `--strategy=docker` - Name of the OpenShift source strategy that is used to produce the new image
 * `--binary=true` - Specifies this build will be of a binary source type
-* `--follow=true` - Follows the build process in the command window
+
 
 A new image called *s2i-play* was produced and can be used to build Play Framework applications in the subsequent sections.
 
@@ -124,14 +122,14 @@ To demonstrate the usage of the newly created builder image, an example applicat
 Create the new application by passing in the name of the builder image created previously and the git repository containing the source code:
 
 ```
-oc new-app --image-stream=s2i-play --code=https://github.com/playframework/play-ebean-example.git --name=play-app
+oc new-app --image-stream=s2i-play --code=https://github.com/playframework/play-java-ebean-example.git --name=play-app
 ```
 
 Let's break down the command in further detail
 
 * `oc new-app` - OpenShift command to create a a new application
 * `--image-stream=s2i-play` - Name of the ImageStream that will be used as the Source to Image builder
-* `--code=https://github.com/playframework/play-ebean-example.git` - Location of appliation source code that will be applied to the builder image.
+* `--code=https://github.com/playframework/play-java-ebean-example.git` - Location of appliation source code that will be applied to the builder image.
 * `--name=play-app` - Name to be applied to the newly created resources
 
 The build that was triggered by the `new-app` command can be found by executing the following command:
