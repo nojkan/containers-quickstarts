@@ -16,7 +16,8 @@ COPY s2i /usr/libexec/s2i
 
 #RUN yum repolist > dev/null && \ 
 #    yum clean all && \
-RUN INSTALL_PKGS="tar unzip bc which lsof java-1.8.0-openjdk java-1.8.0-openjdk-devel" && \
+#RUN INSTALL_PKGS="tar unzip bc which lsof java-1.8.0-openjdk java-1.8.0-openjdk-devel" && \
+RUN INSTALL_PKGS="tar unzip bc which lsof " && \
     yum install -y  $INSTALL_PKGS 
 
 RUN    useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin \
