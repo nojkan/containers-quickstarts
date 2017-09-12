@@ -14,17 +14,10 @@ ENV ACTIVATOR_VERSION=1.3.10 \
 
 COPY s2i /usr/libexec/s2i
 
-#RUN yum repolist > dev/null && \ 
-#    yum clean all && \
-#RUN INSTALL_PKGS="tar unzip bc which lsof java-1.8.0-openjdk java-1.8.0-openjdk-devel" && \
-#RUN INSTALL_PKGS="tar unzip bc which lsof" && \
-#    yum install -y  $INSTALL_PKGS 
-
-RUN yum update
-
-RUN yum install -y tar unzip bc which lsof
-
-RUN    useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin \
+RUN INSTALL_PKGS="tar unzip bc which lsof java-1.8.0-openjdk java-1.8.0-openjdk-devel" && \
+    yum install -y $INSTALL_PKGS && \
+    yum clean all && \
+    useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin \
         -c "Default Application User" default && \
     mkdir -p ${HOME} /opt/activator /opt/s2i/destination/src/ /deployments && \
     chown -R 1001:0 /opt/app-root /opt/activator /opt/s2i/destination/src/ /deployments && \
