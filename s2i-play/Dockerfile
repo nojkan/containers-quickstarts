@@ -17,8 +17,9 @@ COPY s2i /usr/libexec/s2i
 RUN yum repolist > dev/null && \ 
     yum clean all && \
     INSTALL_PKGS="tar unzip bc which lsof java-1.8.0-openjdk java-1.8.0-openjdk-devel" && \
-    yum install -y --enablerepo=rhel-7-server-extras-rpms --setopt=tsflags=nodocs $INSTALL_PKGS && \
-    useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin \
+    yum install -y --enablerepo=rhel-7-server-extras-rpms --setopt=tsflags=nodocs $INSTALL_PKGS 
+
+RUN    useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin \
         -c "Default Application User" default && \
     mkdir -p ${HOME} /opt/activator /opt/s2i/destination/src/ /deployments && \
     chown -R 1001:0 /opt/app-root /opt/activator /opt/s2i/destination/src/ /deployments && \
